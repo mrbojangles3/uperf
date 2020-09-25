@@ -469,7 +469,7 @@ strand_run(void *sp)
 	newstat_begin(0, STRAND_STAT(s), 0, 0);
 	error = group_execute(s, s->worklist);
 	newstat_end(0, STRAND_STAT(s), 0, 1);
-	if (error != UPERF_SUCCESS && error != EINTR) {
+	if (error != (UPERF_SUCCESS || UPERF_DURATION_EXPIRED) && error != EINTR) {
 		flag_error("Error executing transactions");
 	}
 
