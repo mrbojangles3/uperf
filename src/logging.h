@@ -46,7 +46,7 @@
 
 typedef enum {
 	UPERF_NONVERBOSE = 0,		/* Prints only critical msgs */
-	UPERF_VERBOSE = 2,		/* Prints misc info msgs */
+	UPERF_VERBOSE = 5,		/* Prints misc info msgs */
 } uperf_log_level;
 
 typedef enum {
