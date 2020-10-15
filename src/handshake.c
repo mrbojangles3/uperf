@@ -85,24 +85,28 @@ tx_group_t(protocol_t *p, group_t *g, char *host)
 
 	/* First write the group, then txn , then flowop */
 	if (ensure_write(p, copy, SIZEOF_GROUP_T) <= 0) {
+        uperf_info("group_free at line %d",__LINE__);
 		group_free(copy);
 		return (UPERF_FAILURE);
 	}
 	uperf_info("    Sent workorder\n");
 	for (txn = copy->tlist; txn; txn = txn->next) {
 		if (ensure_write(p, txn, SIZEOF_TXN_T) <= 0) {
+            uperf_info("group_free at line %d",__LINE__);
 			group_free(copy);
 			return (UPERF_FAILURE);
 		}
 		uperf_info("    Sent transaction\n");
 		for (fptr = txn->flist; fptr; fptr = fptr->next) {
 			if (ensure_write(p, fptr, SIZEOF_FLOWOP_T) <= 0) {
+                uperf_info("group_free at line %d",__LINE__);
 				group_free(copy);
 				return (UPERF_FAILURE);
 			}
 			uperf_info("    Sent flowop\n");
 		}
 	}
+    uperf_info("group_free at line %d",__LINE__);
 	group_free(copy);
 	uperf_info("TX worklist success");
 
@@ -129,6 +133,7 @@ rx_group_t(protocol_t *p, int my_endian)
 	uperf_info("Waiting for workorder\n");
 	worklist = calloc(1, sizeof (group_t));
 	if (ensure_read(p, worklist, SIZEOF_GROUP_T) <= 0) {
+        uperf_info("free at line %d",__LINE__);
 		free(worklist);
 		return (NULL);
 	}
@@ -141,7 +146,9 @@ rx_group_t(protocol_t *p, int my_endian)
 	for (i = 0; i < worklist->ntxn; i++) {
 		txn = calloc(1, sizeof (txn_t));
 		if (ensure_read(p, txn, SIZEOF_TXN_T) <= 0) {
+            uperf_info("group_free at line %d",__LINE__);
 			group_free(worklist);
+            uperf_info("free at line %d",__LINE__);
 			free(txn);
 			return (NULL);
 		}
@@ -157,6 +164,7 @@ rx_group_t(protocol_t *p, int my_endian)
 			uperf_info("    Reading Flowop\n");
 			if (ensure_read(p, f, SIZEOF_FLOWOP_T) <= 0) {
 				group_free(worklist);
+                uperf_info("free at line %d",__LINE__);
 				free(f);
 				return (NULL);
 			}
@@ -328,6 +336,7 @@ handshake_p2_with_slave(uperf_shm_t *shm, char *host, group_t *g,
 			<= 0) {
 			return (UPERF_FAILURE);
 		}
+        uperf_info("free at line %d",__LINE__);
 		free(si);
 	}
 
@@ -349,11 +358,13 @@ handshake_p2_with_slave(uperf_shm_t *shm, char *host, group_t *g,
 			return (UPERF_FAILURE);
 		}
 		if ((ensure_read(p, si, size)) <= 0) {
+            uperf_info("free at line %d",__LINE__);
 			free(si);
 			return (UPERF_FAILURE);
 		}
 		/* Now update the per-strand structures with this data */
 		update_strand_with_slave_info(shm, si, host, g->nthreads, ssid);
+        uperf_info("free at line %d",__LINE__);
 		free(si);
 	}
 
@@ -520,6 +531,7 @@ slave_handshake_p2_complete(uperf_shm_t *shm, protocol_t *p)
 		return (UPERF_FAILURE);
 	}
 	if ((ensure_read(p, si, size)) <= 0) {
+        uperf_info("free at line %d",__LINE__);
 		free(si);
 		return (UPERF_FAILURE);
 	}
@@ -532,6 +544,7 @@ slave_handshake_p2_complete(uperf_shm_t *shm, protocol_t *p)
 	update_strand_with_slave_info(shm, si, p->host,
 	    shm->worklist->nthreads, 0);
 
+    uperf_info("free at line %d",__LINE__);
 	free(si);
 	return (UPERF_SUCCESS);
 }

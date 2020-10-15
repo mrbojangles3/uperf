@@ -501,8 +501,10 @@ ssl_fini(protocol_t *p)
 	}
 	protocol_ssl_disconnect(p);
 	if (p->_protocol_p) {
+        uperf_info("free at line %d",__LINE__);
 		free(p->_protocol_p);
 	}
+    uperf_info("free at line %d",__LINE__);
 	free(p);
 	uperf_debug("ssl - destroyed ssl object successfully\n");
 }

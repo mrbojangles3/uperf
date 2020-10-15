@@ -449,10 +449,14 @@ udp_fini(protocol_t *p)
 	 * only when the refcount reaches 0.
 	 */
 	if (pd->refcount < -1) {
-		if (pd->sock > 0)
+		if (pd->sock > 0){
 			(void) close(pd->sock);
+        }
+        uperf_info("free at line %d",__LINE__);
 		free(pd->rhost);
+        uperf_info("free at line %d",__LINE__);
 		free(pd);
+        uperf_info("free at line %d",__LINE__);
 		free(p);
 	}
 }

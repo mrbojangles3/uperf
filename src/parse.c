@@ -254,8 +254,9 @@ parse(char *buffer, struct symbol *list)
 			/* merge this with prev symbol */
 			strlcpy(sym, curr->symbol, 1024);
 			strlcat(sym, token, 1024);
-			if (curr->symbol)
+			if (curr->symbol){
 				free(curr->symbol);
+            }
 			curr->type = token_type(sym);
 			curr->symbol = get_symbol(strdup(sym));
 		} else {
@@ -997,8 +998,9 @@ parse_app_profile(char *filename)
 		free(p);
 		p = q;
 	}
-	for (i = 0; i < no_errs; i++)
+	for (i = 0; i < no_errs; i++){
 		free(parse_errors[i]);
+    }
 	free(buffer);
 	close(fd);
 	if (w == NULL || no_errs > 0)
