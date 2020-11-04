@@ -215,6 +215,7 @@ group_execute(strand_t *strand, group_t *g)
 	strand->strand_state = STRAND_STATE_EXIT;
 	if (ENABLED_GROUP_STATS(options))
 		stats_update(GROUP_END, strand, GROUP_STAT(g), 0, 1);
+    uperf_info("free at line %d",__LINE__);
 	free(strand->buffer);
 
 	return (error);
