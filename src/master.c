@@ -279,6 +279,7 @@ master_poll(uperf_shm_t *shm)
 			/* Read slave msg and process it */
 			(void) printf("\n*** Slave aborted! ***\n");
 			shm->global_error++;
+            uperf_error("global_error++ main event loop,polling slaves");
 			break;
 		}
 		shm->current_time = GETHRTIME();
@@ -548,8 +549,10 @@ master(workorder_t *w)
 		w->grp[i].groupid = i;
 		if (shm->global_error > 0)
 			break;
-		if (spawn_strands_group(shm, &w->grp[i], id) != 0)
+		if (spawn_strands_group(shm, &w->grp[i], id) != 0){
+            uperf_error("global_error++, after spawn_strands_group");
 			shm->global_error++;
+        }
 		id += w->grp[i].nthreads;
 	}
 

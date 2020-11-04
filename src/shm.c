@@ -103,6 +103,7 @@ shm_process_callouts(uperf_shm_t *shm)
 		if (timeout > 0 && timeout <= now) {
 			if (signal_all_strands(shm, i, SIGUSR2) != 0) {
 				shm->global_error++;
+                uperf_error("global_error++ signal_all_strands");
 				uperf_log_msg(UPERF_LOG_ERROR, 0,
 				    "Error signalling strands");
 				return (-1);
@@ -297,6 +298,7 @@ void
 flag_error(char *reason)
 {
 	global_shm->global_error++;
+    uperf_error("global_error++, flag_error is called");
 	if (reason)
 		uperf_info("%s:%s\n", __func__, reason);
 }
