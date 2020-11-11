@@ -112,8 +112,10 @@ wait_unlock_barrier(uperf_shm_t *shm, int txn)
 	bar = &shm->bar[txn];
 	while (BARRIER_NOTREACHED(bar)) {
 		uperf_log_flush();
-		if (shm->global_error > 0)
+		if (shm->global_error > 0){
+            uperf_error("%s global_error=%d\n",__func__,shm->global_error);
 			return (-1);
+        }
 
 		uperf_info("%d threads not at barrier %d sending SIGUSR2\n",
 		    barrier_notreached(bar), txn);
@@ -162,6 +164,7 @@ slave_master_poll(uperf_shm_t *shm, protocol_t *control)
 	for (;;) {
 		shm->current_time = GETHRTIME();
 		if (shm->global_error > 0) {
+            uperf_error("%s global_error=%d\n",__func__,shm->global_error);
 			return (-1);
 		}
 		if (generic_poll(control->fd, 1000, POLLIN) > 0) {

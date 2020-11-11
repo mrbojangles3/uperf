@@ -198,6 +198,7 @@ group_execute(strand_t *strand, group_t *g)
 		wait_barrier(b);
 
 		if (global_shm->global_error > 1) {
+            uperf_error("%s global_error=%d\n",__func__,global_shm->global_error);
 			break;
 		}
 		strand->strand_state = STRAND_STATE_EXECUTING;

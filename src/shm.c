@@ -271,6 +271,9 @@ shm_fini(uperf_shm_t *shm)
 {
 	if (shm != NULL) {
 		uperf_error("\n");
+        if(shm->global_error != 0){
+		    uperf_error("%s global_error=%d\n",__func__,shm->global_error);
+        }
 		uperf_log_flush();
 #ifdef USE_SHMGET
 		shmdt((char *) shm);

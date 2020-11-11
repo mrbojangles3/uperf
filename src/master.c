@@ -220,6 +220,7 @@ send_command_to_slaves(uperf_cmd cmd, int value)
 static void
 master_prepare_to_exit(uperf_shm_t *shm)
 {
+    uperf_error("%s, global_error=%d\n",__func__,shm->global_error);
 	static int cleaned_up = 0;
 	if (cleaned_up > 1){
 	    uperf_info("Master: calling abort\n");
@@ -281,7 +282,7 @@ master_poll(uperf_shm_t *shm)
 			/* Read slave msg and process it */
 			(void) printf("\n*** Slave aborted! ***\n");
 			shm->global_error++;
-            uperf_error("global_error++ main event loop,polling slaves\n");
+            uperf_error("global_error=%d, main event loop,polling slaves\n",shm->global_error);
 			break;
 		}
 		shm->current_time = GETHRTIME();
@@ -332,6 +333,7 @@ master_poll(uperf_shm_t *shm)
 		uperf_line();
 	}
 	if (shm->global_error > 0) {
+        uperf_error("global_error=%d, main event loop is over, about to exit\n",shm->global_error);
 		master_prepare_to_exit(shm);
 		return (1);
 	}
@@ -559,6 +561,7 @@ master(workorder_t *w)
 	}
 
 	if (shm->global_error > 0) {
+        uperf_error("global error: %d\n",shm->global_error);
 		master_prepare_to_exit(shm);
 		shm_fini(shm);
 		return (UPERF_FAILURE);
@@ -641,7 +644,7 @@ master(workorder_t *w)
 	/* Cleanup */
 	if (shm->global_error != 0) {
 		(void) printf("\nWARNING: Errors detected during run\n");
-        (void) printf("global_error = %d\n",shm->global_error);
+        (void) printf("%s global_error = %d\n",__func__,shm->global_error);
 		shm_fini(shm);
 		exit(1);
 	}
