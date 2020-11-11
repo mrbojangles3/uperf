@@ -237,11 +237,11 @@ strand_fini(strand_t *s)
 	sil = s->slave_list;
 	while (sil) {
 		slave_info_list_t *q = sil->next;
-        uperf_info("free at line %d",__LINE__);
+        uperf_info("free at line %d\n",__LINE__);
 		free(sil);
 		sil = q;
 	}
-    uperf_info("group_free at line %d",__LINE__);
+    uperf_info("group_free at line %d\n",__LINE__);
 	group_free(s->worklist);
 }
 

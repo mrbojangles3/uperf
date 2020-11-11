@@ -79,7 +79,7 @@ name_to_addr(const char *address, struct sockaddr_storage *saddr)
 			memcpy(saddr, res->ai_addr, res->ai_addrlen);
 			break;
 		}
-        uperf_info("free at line %d",__LINE__);
+        uperf_info("free at line %d\n",__LINE__);
 		freeaddrinfo(res0);
 		if (res != NULL) {
 			return (UPERF_SUCCESS);
@@ -425,7 +425,7 @@ generic_fini(protocol_t *p)
 	if (p && p->fd > 0)
 		(void) close(p->fd);
 	if (p){
-        uperf_info("free at line %d",__LINE__);
+        uperf_info("free at line %d\n",__LINE__);
 		free(p);
     }
 }

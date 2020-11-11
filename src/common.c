@@ -59,7 +59,7 @@ update_strand_with_slave_info(uperf_shm_t *shm, slave_info_t *si,
 		assert(s);
 		(void) strlcpy(si[i].host, host, MAXHOSTNAME);
 		if ((strand_add_slave(s, &si[i])) != UPERF_SUCCESS) {
-            uperf_info("free at line %d",__LINE__);
+            uperf_info("free at line %d\n",__LINE__);
 			free(si);
 			return (UPERF_FAILURE);
 		}
@@ -148,7 +148,7 @@ preprocess_accepts(uperf_shm_t *shm, group_t *g, slave_info_t **sl,
 
 	if (status == UPERF_FAILURE) {
 		if (sl != NULL)
-            uperf_info("free at line %d",__LINE__);
+            uperf_info("free at line %d\n",__LINE__);
 			free (*sl);
 		return (UPERF_FAILURE);
 	}

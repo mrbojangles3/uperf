@@ -221,8 +221,10 @@ static void
 master_prepare_to_exit(uperf_shm_t *shm)
 {
 	static int cleaned_up = 0;
-	if (cleaned_up > 1)
+	if (cleaned_up > 1){
+	    uperf_info("Master: calling abort\n");
 		abort();
+    }
 	uperf_info("Master: Shutting down strands\n");
 	strand_killall(shm);
 	(void) send_command_to_slaves(UPERF_CMD_ABORT, 0);
@@ -279,7 +281,7 @@ master_poll(uperf_shm_t *shm)
 			/* Read slave msg and process it */
 			(void) printf("\n*** Slave aborted! ***\n");
 			shm->global_error++;
-            uperf_error("global_error++ main event loop,polling slaves");
+            uperf_error("global_error++ main event loop,polling slaves\n");
 			break;
 		}
 		shm->current_time = GETHRTIME();
@@ -550,7 +552,7 @@ master(workorder_t *w)
 		if (shm->global_error > 0)
 			break;
 		if (spawn_strands_group(shm, &w->grp[i], id) != 0){
-            uperf_error("global_error++, after spawn_strands_group");
+            uperf_error("global_error++, after spawn_strands_group\n");
 			shm->global_error++;
         }
 		id += w->grp[i].nthreads;
@@ -639,6 +641,7 @@ master(workorder_t *w)
 	/* Cleanup */
 	if (shm->global_error != 0) {
 		(void) printf("\nWARNING: Errors detected during run\n");
+        (void) printf("global_error = %d\n",global_error);
 		shm_fini(shm);
 		exit(1);
 	}

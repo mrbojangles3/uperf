@@ -235,7 +235,7 @@ slave_init(protocol_t *p)
 
 	shm_tmp = calloc(1, sizeof (uperf_shm_t));
 	if (slave_handshake(shm_tmp, p) != UPERF_SUCCESS) {
-        uperf_info("free at line %d",__LINE__);
+        uperf_info("free at line %d\n",__LINE__);
 		free(shm_tmp);
 		exit(1);
 	}
@@ -249,7 +249,7 @@ slave_init(protocol_t *p)
 
 	if ((shm = calloc(1, shm_size)) == NULL) {
 		slave_handshake_p2_failure("Out of Memory", p, 0);
-        uperf_info("free at line %d",__LINE__);
+        uperf_info("free at line %d\n",__LINE__);
 		free(shm_tmp);
 		return (NULL);
 	}
@@ -261,7 +261,7 @@ slave_init(protocol_t *p)
 	shm->role = SLAVE;
 	global_shm = shm;
 
-    uperf_info("free at line %d",__LINE__);
+    uperf_info("free at line %d\n",__LINE__);
 	free(shm_tmp);
 
 	return (shm);
@@ -299,7 +299,7 @@ slave_master(protocol_t *p)
 		uperf_error("error in strand_init_all\n");
 		slave_handshake_p2_failure("error in strand_init_all",
 		    p, 0);
-        uperf_info("free at line %d",__LINE__);
+        uperf_info("free at line %d\n",__LINE__);
 		free(shm);
 		return (UPERF_FAILURE);
 	}
@@ -309,7 +309,7 @@ slave_master(protocol_t *p)
 			uperf_error("error in strand_init_all\n");
 			slave_handshake_p2_failure("error in strand_init_all",
 			    p, 0);
-            uperf_info("free at line %d",__LINE__);
+            uperf_info("free at line %d\n",__LINE__);
 			free(shm);
 			return (UPERF_FAILURE);
 
@@ -322,7 +322,7 @@ slave_master(protocol_t *p)
 			strerror(errno));
 		uperf_error("%s\n", msg);
 		slave_handshake_p2_failure(msg, p, 0);
-        uperf_info("free at line %d",__LINE__);
+        uperf_info("free at line %d\n",__LINE__);
 		free(shm);
 		return (UPERF_FAILURE);
 	}
@@ -345,7 +345,7 @@ slave_master(protocol_t *p)
 		uperf_fatal("Error in handshake end");
 	}
 	if (sl){
-        uperf_info("free at line %d",__LINE__);
+        uperf_info("free at line %d\n",__LINE__);
 		free(sl);
     }
 
@@ -367,7 +367,7 @@ slave_master(protocol_t *p)
 	uperf_log_flush();
 	uperf_info("%ld: master-slave exiting\n", getpid());
 	p->disconnect(p);
-    uperf_info("free at line %d",__LINE__);
+    uperf_info("free at line %d\n",__LINE__);
 	free(shm);
 
 	return (0);
