@@ -280,11 +280,12 @@ wait_for_strands(uperf_shm_t *shm, int error)
 
 		} else {
 			/* if some error occurs, do NOT wait. */
-			if (!error)
+			if (!error){
 				if (pthread_join(s->tid, 0) != 0) {
 					uperf_log_msg(UPERF_LOG_ERROR, errno,
 					    "pthread join");
 				}
+            }
 		}
 	}
 	joined = 1;
