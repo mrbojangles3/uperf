@@ -65,8 +65,8 @@
 #include "stats.h"
 #include "print.h"
 
-#define	UPERF_GOODBYE_TIMEOUT	15000	/* 15 seconds */
-#define	MAX_POLL_SLAVES_TIMEOUT	1000	/* 1 second */
+#define	UPERF_GOODBYE_TIMEOUT	20000	/* 20 seconds */
+#define	MAX_POLL_SLAVES_TIMEOUT	3000	/* 3 second */
 
 extern options_t options;
 
