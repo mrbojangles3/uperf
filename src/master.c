@@ -642,9 +642,10 @@ master(workorder_t *w)
 		(void) fclose(options.history_fd);
 	}
 	/* Cleanup */
-	if (shm->global_error != 0 || error != 0) {
+	if (shm->global_error != 0) {
 		(void) printf("\nWARNING: Errors detected during run\n");
         (void) printf("%s global_error = %d\n",__func__,shm->global_error);
+        (void) printf("%s error = %d\n",__func__,error);
 		shm_fini(shm);
 		exit(1);
 	}
