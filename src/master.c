@@ -191,6 +191,7 @@ poll_slaves()
 	error = poll(pfd, no_pfds, timeout);
 	if (error < 0) {
 		perror("poll:");
+        uperf_error("Poll returned negative number\n");
 	}
 
 	return (error);
@@ -278,11 +279,12 @@ master_poll(uperf_shm_t *shm)
 			break;
 		}
 		error = poll_slaves();
-		if (error != 0) {	/* msg arrived */
+		/*if (error != 0) {	 msg arrived */
+		if (error < 0) {	/* msg arrived */
 			/* Read slave msg and process it */
 			(void) printf("\n*** Slave aborted! ***\n");
 			shm->global_error++;
-            uperf_error("global_error=%d, main event loop,polling slaves\n",shm->global_error);
+            uperf_error("%s,global_error=%d, poll_slaves returned a non-zero\n",shm->global_error);
 			break;
 		}
 		shm->current_time = GETHRTIME();
@@ -645,7 +647,7 @@ master(workorder_t *w)
 	if (shm->global_error != 0) {
 		(void) printf("\nWARNING: Errors detected during run\n");
         (void) printf("%s global_error = %d\n",__func__,shm->global_error);
-        (void) printf("%s error = %d\n",__func__,error);
+        (void) printf("%s non-fatal error = %d\n",__func__,error);
 		shm_fini(shm);
 		exit(1);
 	}
