@@ -322,14 +322,14 @@ signal_strand(strand_t *s, int signal)
 			signal == SIGUSR1 ? "SIGUSR1(kill)": "SIGUSR2",
 			(unsigned long)s->tid);
 		errno = 0;
-		if ((status = pthread_kill(s->tid, signal)) != 0) {
+		if ((status = pthread_cancel(s->tid)) != 0) {
 			if (status != ESRCH) {
 				/*
 				 * Strangely, the error is not
 				 * reported in errno, but in the
 				 * return value
 				 */
-				uperf_error("pthread_kill: err = %d\n",
+				uperf_error("pthread_cancel: err = %d\n",
 				    status);
 			}
 		}
