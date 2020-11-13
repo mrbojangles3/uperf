@@ -285,6 +285,8 @@ wait_for_strands(uperf_shm_t *shm, int error)
 					uperf_log_msg(UPERF_LOG_ERROR, errno,
 					    "pthread join");
 				}
+            } else {
+                uperf_error("%s: got error int %d\n",__func__,error);
             }
 		}
 	}
