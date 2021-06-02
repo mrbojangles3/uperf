@@ -87,7 +87,8 @@ workorder_num_strands_bytype(workorder_t *w, uint32_t type)
 int
 workorder_max_txn(workorder_t *w)
 {
-	int i, no;
+	int i;
+	unsigned int no;
 
 	no = 0;
 	for (i = 0; i < w->ngrp; i++)
